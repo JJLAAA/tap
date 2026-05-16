@@ -1071,3 +1071,38 @@ Restored README.md as the English default documentation, kept README.zh.md as th
 ### Next Steps
 
 - None - task complete
+
+
+## Session 28: TAP long-term positioning
+
+**Date**: 2026-05-16
+**Task**: TAP long-term positioning
+**Branch**: `main`
+
+### Summary
+
+Updated TAP long-term roadmap to reflect ownership reality, wrapper limits, and the final orchestration-layer positioning.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `0c6537d` | (see git log) |
+| `a2dac04` | (see git log) |
+| `d289e40` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
