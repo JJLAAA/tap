@@ -1144,3 +1144,36 @@ Simplified the TAP long-term roadmap positioning, clarified production read-only
 ### Next Steps
 
 - None - task complete
+
+
+## Session 30: 精简重写 TAP 长远规划文档
+
+**Date**: 2026-05-16
+**Task**: 精简重写 TAP 长远规划文档
+**Branch**: `main`
+
+### Summary
+
+把 docs/readonly-data-access-roadmap.md 从 297 行精简重写为 95 行。核心叙事前置，删掉推导段落，所有关键战略判断以结论形式保留。
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `e760282` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete

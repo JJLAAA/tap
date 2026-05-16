@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 29
+- **Total Sessions**: 30
 - **Last Active**: 2026-05-16
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~1142 | Active |
+| `journal-1.md` | ~1179 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 30 | 2026-05-16 | 精简重写 TAP 长远规划文档 | `e760282` | `main` |
 | 29 | 2026-05-16 | Simplify TAP roadmap | `abee325`, `dacbf10` | `main` |
 | 28 | 2026-05-16 | TAP long-term positioning | `0c6537d`, `a2dac04`, `d289e40` | `main` |
 | 27 | 2026-05-12 | Restore English default README | `20c38a7`, `7485896` | `main` |
