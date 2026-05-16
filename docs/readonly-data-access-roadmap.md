@@ -12,7 +12,7 @@ tap <domain> <command> [--key value] [--format json]
 
 对 Agent 来说，TAP 提供的是业务语义明确的 workflow 入口，而不是要求 Agent 临时理解网页路径、内部接口、登录态、字段结构、筛选逻辑，以及多个工具之间的调用顺序和结果拼接方式。
 
-但 TAP 不应试图长期拥有核心业务数据入口，也不应长期包装单个系统的核心能力。真实组织中，核心数据和核心动作通常会由数据持有方建设和维护专有 CLI、API、SDK、OpenAPI schema 或 MCP server。TAP 更适合站在这些工具之上，做跨工具编排、结果归一化、断言、证据收集和 Agent-friendly 输出；当官方工具缺位时，TAP 可以临时桥接长尾、非正式、尚未 Agent-friendly 的数据入口。
+真实组织中，核心数据和核心动作通常会由数据持有方建设和维护专有 CLI、API、SDK、OpenAPI schema 或 MCP server。TAP 的长期价值不是拥有这些入口，而是站在它们之上做跨工具编排、结果归一化、断言、证据收集和 Agent-friendly 输出；当官方工具缺位时，TAP 临时桥接长尾、非正式、尚未 Agent-friendly 的数据入口。
 
 ## 核心判断
 
@@ -20,7 +20,7 @@ tap <domain> <command> [--key value] [--format json]
 
 因此，TAP 的长期方向应从“Web/HTTP 适配器”演进为“业务工具编排层”。HTTP/Web 仍是一等数据源，但只是 workflow 的一个 source；官方 CLI/API、日志、指标、测试 runner 和内部工具同样可以成为 source。
 
-同时，这个“编排层”应被理解为 workflow 层，而不是替代数据持有方官方工具的平台层。对于高频、核心、强治理的单系统能力，TAP 可以用于原型验证、临时接入或迁移过渡；当能力成熟后，应该沉淀为数据持有方长期维护的专有 CLI/API。TAP 的长期价值应保留在跨系统验收、诊断、发布验证、证据收集和长尾补位上。
+这个“编排层”应被理解为 workflow 层，而不是替代数据持有方官方工具的平台层。对于高频、核心、强治理的单系统能力，TAP 可以用于原型验证、临时接入或迁移过渡；当能力成熟后，应推动它沉淀为数据持有方长期维护的专有工具。
 
 ## 组织现实：数据持有方会建设自己的工具
 
@@ -44,11 +44,11 @@ tap <domain> <command> [--key value] [--format json]
   → TAP 只保留桥接、兼容或边缘补位角色
 ```
 
-这意味着 TAP 的成功标准不应是“所有业务数据都接入 TAP”，而应是“让 Agent 能尽快、低成本、可控地接触那些暂时没有正式 Agent 工具的数据源”。当某个 TAP adapter 证明了高频价值，它反而应该推动数据持有方把能力正式产品化。
+这意味着 TAP 的成功标准不应是“所有业务数据都接入 TAP”，而应是“让 Agent 能尽快、低成本、可控地接触那些暂时没有正式 Agent 工具的数据源”。当某个 adapter 证明了高频价值，它反而应该推动数据持有方把能力正式产品化。
 
 ## 核心收敛：从 wrapper 到 orchestration
 
-单纯做 wrapper 也不是稳固终局。被包装的一方一旦有动力建设自己的 Agent-friendly CLI/API，就会天然倾向自己提供 schema、JSON 输出、错误码、诊断建议和权限治理。TAP 长期包装单个核心系统，仍然会和系统 owner 发生 ownership 冲突。
+单纯做 wrapper 不是稳固终局。被包装的一方一旦有动力建设自己的 Agent-friendly CLI/API，就会天然倾向自己提供 schema、JSON 输出、错误码、诊断建议和权限治理。TAP 长期包装单个核心系统，仍然会和系统 owner 发生 ownership 冲突。
 
 因此，TAP 的长期主线应收敛到 orchestration：
 
@@ -61,23 +61,13 @@ TAP orchestration：组合、归一化、断言、报告、artifacts
 Agent / CI / 人类开发者
 ```
 
-TAP 负责的是把多个已有能力组织成一个业务语义 workflow：
-
-```bash
-tap diagnose order --id O123
-tap acceptance order-smoke --env staging
-tap release verify --service payment --version 1.2.3
-tap incident collect --trace-id abc123
-tap report campaign-health --account 888
-```
-
-这些命令的共同点是：单个系统 owner 很难独立负责完整链路，但 Agent/CI 需要一个稳定入口来执行、判断和收集证据。TAP 的护城河不应是“能访问某个数据源”，而应是“知道一个跨系统业务问题应该查哪些工具、按什么顺序查、如何判断、如何输出给 Agent”。
+TAP 负责的是把多个已有能力组织成一个业务语义 workflow。单个系统 owner 很难独立负责完整链路，但 Agent/CI 需要一个稳定入口来执行、判断和收集证据。TAP 的护城河不应是“能访问某个数据源”，而应是“知道一个跨系统业务问题应该查哪些工具、按什么顺序查、如何判断、如何输出给 Agent”。
 
 在这个定位下：
 
 - wrapper 是临时或兼容手段，不是核心终局
 - 长尾数据桥接是 orchestration 的 source，不是主叙事
-- E2E 验收是 orchestration 的强场景，不是唯一场景
+- 端到端验收是 orchestration 的强场景，但 TAP 不替代 Playwright/Cypress 这类 UI 测试框架
 - 官方 Agent-friendly CLI/API 出现后，TAP 应优先复用它，而不是重复封装单点能力
 - TAP 的核心产物是 workflow contract：schema、参数、执行计划、结构化结果、错误分类、artifacts 和审计记录
 
@@ -85,24 +75,22 @@ tap report campaign-health --account 888
 
 TAP 在生产环境中只服务查询、诊断、汇总、巡检、报表和证据收集类场景，不承载写入动作。
 
-禁止的能力包括：
+生产环境禁止的能力包括：
 
 - 创建、修改、删除业务对象
 - 提交表单或触发审批、投放、下线等状态变更
 - 执行 `POST`、`PUT`、`PATCH`、`DELETE` 这类写接口
 - 执行 `insert`、`update`、`delete`、`drop`、`alter`、`truncate` 等 SQL
-- 运行未白名单的 shell 命令或内部 CLI
+- 运行未白名单的 shell 命令或内部 CLI；官方 Agent-friendly CLI/API/MCP 可以是一等 source，但任意 shell 执行不能作为默认能力
 - 通过浏览器点击触发不可逆业务动作
 
-只读边界不能只依赖 adapter 作者自觉，必须在运行时和基础设施两层同时约束。
-
-测试、预发和沙箱环境可以有受控的 acceptance mode，用于端到端验收。这个模式必须显式启用，并且写动作只能通过白名单 action、fixture、官方测试 API 或专用测试 CLI 执行；每个动作都必须有 schema、幂等键、超时、审计、清理策略和环境隔离。UI 点击、表单填写和模拟人工操作只能作为最后兜底，不应成为 TAP 的主能力。
+只读边界不能只依赖 adapter 作者自觉，必须通过静态校验、运行时约束和基础设施权限共同兜底。测试、预发和沙箱环境可以有受控的 acceptance mode，用于端到端业务验收；这个模式必须显式启用，写动作只能通过白名单 action、fixture、官方测试 API 或专用测试 CLI 执行，并且具备 schema、幂等键、超时、审计、清理策略和环境隔离。UI 点击、表单填写和模拟人工操作只能作为最后兜底，不应成为 TAP 的主能力。
 
 ## 目标场景
 
 TAP 应优先服务跨系统、跨工具、需要结构化判断的业务 workflow：
 
-- 端到端验收：准备测试数据、触发流程、等待异步状态、跨系统检查结果、收集 artifacts、输出 pass/fail
+- 非生产端到端业务验收：准备测试数据、触发流程、等待异步状态、跨系统检查结果、收集 artifacts、输出 pass/fail
 - 业务诊断：围绕订单、广告计划、账户、traceId 等对象，串联业务系统、日志、指标、配置和队列状态
 - 发布/变更验证：发布后检查版本、流量、错误率、核心链路、关键业务指标和回滚信号
 - 事故证据收集：按 traceId、业务 ID、时间窗口聚合日志、指标、接口返回和相关对象状态
@@ -160,32 +148,33 @@ browser read-only fetch
 { metric: { name: 'ad_cost_qps', tags: { env: 'prod' } } }
 ```
 
-优先级建议：
+provider 的优先级取决于查询语义是否清晰、只读约束是否能兜底，以及是否能稳定输出结构化结果：
 
 | 数据源 | 优先级 | 原因 |
 | --- | --- | --- |
+| 官方 Agent-friendly CLI/API/MCP | 高 | 一等 source，应优先复用 |
 | SQL / 数仓 | 高 | 高频查询场景多，天然适合结构化输出 |
 | 日志系统 | 高 | 排障价值高，通常已有只读查询权限 |
 | 指标系统 | 高 | 巡检和诊断依赖强，查询语义清晰 |
 | BI / 报表平台 | 中 | 有 API 时容易接入，只能网页导出时复杂度较高 |
 | 内部 RPC | 中 | 依赖协议、鉴权、IDL 和客户端生态 |
 | Redis / HBase / Elasticsearch | 中 | 技术可行，但需要更严格的数据和查询限制 |
-| Shell / 内部 CLI | 低 | 最通用，也最容易突破只读边界，必须白名单化 |
+| Shell / 任意内部 CLI | 低 | 最通用，也最容易突破只读边界，必须白名单化 |
 
 ### 第三阶段：受控 RPC 和内部工具接入
 
-RPC 和内部 CLI 只能以 allowlist 方式接入：
+RPC 和任意内部 CLI 只能以 allowlist 方式接入：
 
 - 明确允许的服务、方法和参数 schema
 - 方法名倾向 `get`、`query`、`list`、`search`、`describe`
 - 禁止 `create`、`update`、`delete`、`submit`、`approve`、`publish` 等动作语义
 - 所有调用带超时、结果大小限制和审计日志
 
-这一阶段适合承载跨系统诊断和验收 workflow，例如同时查询投放状态、预算服务、审核系统、实时指标和错误日志。
+这一阶段适合承载跨系统诊断和非生产验收 workflow，例如同时查询投放状态、预算服务、审核系统、实时指标和错误日志。
 
 ### 第四阶段：workflow adapter
 
-在 source 能力稳定后，TAP 应把 adapter 从 data adapter 推进到 workflow adapter：
+近期和中期可以先用现有 adapter 形态沉淀代表性 workflow 命令；在 source 能力稳定后，TAP 再把这些模式抽象成正式 workflow adapter：
 
 ```js
 export default {
@@ -210,7 +199,7 @@ workflow adapter 的重点不是“抓到更多数据”，而是把执行计划
 
 ## 只读安全模型
 
-TAP 的只读安全模型应包含三层。
+TAP 的只读安全模型应包含三层，作为“生产默认只读”的执行机制。
 
 第一层是 adapter 静态校验：
 
@@ -218,7 +207,7 @@ TAP 的只读安全模型应包含三层。
 - HTTP 默认只允许 GET
 - SQL 必须是 SELECT 类查询
 - browser trigger 禁止提交类操作
-- shell/exec 默认禁用
+- shell/exec 默认禁用；官方 CLI provider 和任意 shell provider 分开建模
 
 第二层是 provider 运行时约束：
 
@@ -268,7 +257,7 @@ TAP 的只读安全模型应包含三层。
 - 明确 TAP 是 workflow 层，不是核心业务数据的终局入口
 - 保持 HTTP/Web 能力稳定
 - 建立 workflow 命令粒度规范
-- 为诊断、验收、发布验证沉淀一组代表性 workflow 命令
+- 为诊断、非生产验收、发布验证沉淀一组代表性 workflow 命令
 - 增加只读 pipeline 校验的设计
 
 ### 中期
@@ -276,17 +265,17 @@ TAP 的只读安全模型应包含三层。
 - 引入 datasource 配置
 - 实现 `sql`、`log`、`metric` 三类 provider
 - 给 provider 增加 timeout、limit、审计和脱敏能力
-- 建立常见业务诊断、验收和发布验证 workflow
+- 建立常见业务诊断、非生产验收和发布验证 workflow
 - 形成 adapter authoring 的安全检查清单
 
 ### 长期
 
 - 支持受控 RPC provider
 - 支持内部 CLI allowlist provider
-- 建立跨工具 workflow adapter
+- 将已验证的 workflow 命令抽象为正式 workflow adapter
 - 提供更强的 schema 描述和输出契约
 - 与 Agent 工具生态集成，但继续保持 CLI 作为稳定底座
-- 对已经证明高频价值的 adapter，推动迁移到数据持有方维护的专有 CLI/API/MCP，TAP 保留兼容、桥接和长尾补位能力
+- 对已经证明高频价值的单点 adapter，推动迁移到数据持有方维护的专有 CLI/API/MCP
 
 ## 非目标
 
@@ -301,7 +290,7 @@ TAP 不应该变成：
 - 替代 Playwright/Cypress 的 UI E2E 测试框架
 - 长期包装单个系统核心能力的平行入口
 
-对于强契约、强权限、强治理、跨团队依赖的单系统核心能力，长期仍应由数据持有方建设正式 API、专有 CLI、SDK、OpenAPI schema 或 MCP server。TAP 更适合承载跨工具诊断、端到端验收、发布验证、事故证据收集和 Agent 上下文补全这类 workflow 场景，尤其是那些需要组合多个系统、暂时没有正式工具、暂时不值得产品化、或需要快速验证 Agent workflow 的场景。
+对于强契约、强权限、强治理、跨团队依赖的单系统核心能力，长期仍应由数据持有方建设正式 API、专有 CLI、SDK、OpenAPI schema 或 MCP server。TAP 更适合承载跨工具诊断、非生产端到端业务验收、发布验证、事故证据收集和 Agent 上下文补全这类 workflow 场景。
 
 ## 一句话总结
 

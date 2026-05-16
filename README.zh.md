@@ -16,7 +16,7 @@ TAP 的设计目标，是把“意图表达”和“数据执行”分离开：A
 
 从这个角度看，TAP 也是一种构建 Agent harness 的方式：把已有 HTTP 服务、网页接口和浏览器态数据源，封装成 Agent 友好的命令行工具，让 Agent 调用确定性的接口，而不是每次重新浏览和猜测。
 
-长期方向见：[TAP 长期规划：面向 Agent 的只读业务数据接入层](docs/readonly-data-access-roadmap.md)。
+长期方向见：[TAP 长期规划：面向 Agent 的业务工具编排层](docs/readonly-data-access-roadmap.md)。
 
 ---
 
