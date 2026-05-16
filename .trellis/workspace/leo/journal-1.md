@@ -19,7 +19,10 @@
 
 ### Main Changes
 
-(Add details)
+- Refined `docs/readonly-data-access-roadmap.md` to reduce repeated positioning language and keep the long-term narrative centered on TAP as an Agent business-tool orchestration layer.
+- Clarified that production TAP remains read-only, while acceptance workflows that require writes are limited to explicitly enabled test, staging, or sandbox environments.
+- Distinguished official Agent-friendly CLI/API/MCP sources from arbitrary shell/internal CLI execution, and clarified that workflow commands can be validated before a formal workflow adapter DSL exists.
+- Updated the Chinese README roadmap link title to match the current roadmap positioning.
 
 ### Git Commits
 
@@ -29,7 +32,8 @@
 
 ### Testing
 
-- [OK] (Add test results)
+- [OK] `git diff --check`
+- [OK] Keyword scan for stale roadmap title and old ambiguous acceptance/workflow phrasing
 
 ### Status
 
@@ -1094,6 +1098,40 @@ Updated TAP long-term roadmap to reflect ownership reality, wrapper limits, and 
 | `0c6537d` | (see git log) |
 | `a2dac04` | (see git log) |
 | `d289e40` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
+
+
+## Session 29: Simplify TAP roadmap
+
+**Date**: 2026-05-16
+**Task**: Simplify TAP roadmap
+**Branch**: `main`
+
+### Summary
+
+Simplified the TAP long-term roadmap positioning, clarified production read-only boundaries, non-production acceptance scope, official CLI/API/MCP reuse, shell execution constraints, workflow adapter staging, and synchronized the Chinese README link title.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `abee325` | (see git log) |
+| `dacbf10` | (see git log) |
 
 ### Testing
 
